@@ -3,8 +3,6 @@ package com.k3v007.databaseS3Pipeline.repository;
 import com.k3v007.databaseS3Pipeline.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.stream.Stream;
-
 /**
  * The interface Employee repository.
  *
@@ -25,5 +23,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
      *
      * @return the stream
      */
-    Stream<Employee> findAllUsingStream();
+//    Stream<Employee> findAllUsingStream();
 }

@@ -2,6 +2,7 @@ package com.k3v007.databaseS3Pipeline.manager;
 
 import com.k3v007.databaseS3Pipeline.model.Employee;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -12,9 +13,16 @@ import java.util.stream.Stream;
 public interface IEmployeeManager {
 
     /**
-     * Find all employees stream stream.
+     * Find all employees list.
+     *
+     * @return the list
+     */
+    List<Employee> findAllEmployees();
+
+    /**
+     * Gets all employees stream.
      *
      * @return the stream
      */
-    Stream<Employee> findAllEmployeesStream();
+    Stream<Employee> getAllEmployeesStream();
 }

@@ -6,6 +6,7 @@ import com.k3v007.databaseS3Pipeline.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -29,7 +30,12 @@ public class EmployeeManagerImpl implements IEmployeeManager {
     }
 
     @Override
-    public Stream<Employee> findAllEmployeesStream() {
+    public List<Employee> findAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    @Override
+    public Stream<Employee> getAllEmployeesStream() {
         return null;
     }
 }
