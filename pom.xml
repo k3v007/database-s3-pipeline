@@ -60,6 +60,12 @@
             <artifactId>jackson-dataformat-csv</artifactId>
             <version>2.11.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.alexmojaki</groupId>
+            <artifactId>s3-stream-upload</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

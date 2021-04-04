@@ -1,7 +1,10 @@
 package com.k3v007.databaseS3Pipeline.service.reporting.impl;
 
+import com.k3v007.databaseS3Pipeline.dto.ReportParam;
 import com.k3v007.databaseS3Pipeline.enums.ReportType;
 import com.k3v007.databaseS3Pipeline.service.reporting.IReportProcessor;
+
+import java.io.IOException;
 
 /**
  * The type Abstract report processor.
@@ -20,11 +23,5 @@ public abstract class AbstractReportProcessor<T> implements IReportProcessor {
      */
     protected abstract Class<T> getReportClass();
 
-    /**
-     * Generate report file url string.
-     *
-     * @param usingStream the using stream
-     * @return the string
-     */
-    public abstract String generateReportFileUrl(Boolean usingStream);
+    public abstract String generateReportFileUrl(ReportParam reportParam) throws IOException;
 }

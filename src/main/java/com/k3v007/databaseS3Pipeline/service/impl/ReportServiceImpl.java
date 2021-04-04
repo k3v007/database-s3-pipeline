@@ -9,6 +9,8 @@ import com.k3v007.databaseS3Pipeline.service.reporting.factory.ReportProcessorFa
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 /**
  * The type Report service.
  *
@@ -33,9 +35,9 @@ public class ReportServiceImpl implements IReportService {
     }
 
     @Override
-    public void generateReport(ReportParam reportParam) {
+    public void generateReport(ReportParam reportParam) throws IOException {
         IReportProcessor reportProcessor = reportProcessorFactory.getReportingProcessor(reportParam.getReportType());
-        String s3FileUrl = reportProcessor.generateReportFileUrl(true);
+        String s3FileUrl = reportProcessor.generateReportFileUrl(reportParam);
         GenericReport genericReport = GenericReport.builder()
                 .reportName(reportParam.getReportName())
                 .reportType(reportParam.getReportType())

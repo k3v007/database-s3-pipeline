@@ -1,12 +1,14 @@
 package com.k3v007.databaseS3Pipeline.service.reporting.impl;
 
 import com.k3v007.databaseS3Pipeline.dto.EmpBasicReport;
+import com.k3v007.databaseS3Pipeline.dto.ReportParam;
 import com.k3v007.databaseS3Pipeline.enums.ReportType;
 import com.k3v007.databaseS3Pipeline.manager.IEmployeeManager;
 import com.k3v007.databaseS3Pipeline.model.Employee;
 import com.k3v007.databaseS3Pipeline.service.platform.ReportExporter;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -43,15 +45,15 @@ public class EmpBasicReportProcessor extends AbstractReportProcessor<EmpBasicRep
     }
 
     @Override
-    public String generateReportFileUrl(Boolean usingStream) {
+    public String generateReportFileUrl(ReportParam reportParam) throws IOException {
         String reportFileUrl;
-        if (Boolean.TRUE.equals(usingStream)) {
+        if (Boolean.TRUE.equals(reportParam.getStreamEnabled())) {
             Stream<Employee> employeeStream = employeeManager.getAllEmployeesStream();
-            reportFileUrl = reportExporter.exportToCsv(getReportClass(), employeeStream) ;
+            reportFileUrl = reportExporter.exportToCsv(getReportClass(), employeeStream, reportParam.getReportName()) ;
         } else {
             // Using normal iterative in-memory approach
             List<Employee> employeesList = employeeManager.findAllEmployees();
-            reportFileUrl = reportExporter.exportToCsv(getReportClass(), employeesList);
+            reportFileUrl = reportExporter.exportToCsv(getReportClass(), employeesList, reportParam.getReportName());
         }
         return reportFileUrl;
     }

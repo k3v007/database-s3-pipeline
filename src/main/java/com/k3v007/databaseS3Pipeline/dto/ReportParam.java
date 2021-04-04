@@ -37,6 +37,9 @@ public class ReportParam {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime requestedAt;
 
+    @JsonProperty("stream_enabled")
+    private Boolean streamEnabled;
+
     /**
      * Gets report name.
      *
