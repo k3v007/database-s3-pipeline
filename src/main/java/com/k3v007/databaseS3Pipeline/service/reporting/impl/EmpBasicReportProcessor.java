@@ -6,6 +6,7 @@ import com.k3v007.databaseS3Pipeline.enums.ReportType;
 import com.k3v007.databaseS3Pipeline.manager.IEmployeeManager;
 import com.k3v007.databaseS3Pipeline.model.Employee;
 import com.k3v007.databaseS3Pipeline.service.platform.ReportExporter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class EmpBasicReportProcessor extends AbstractReportProcessor<EmpBasicRep
      * @param employeeManager the employee manager
      * @param reportExporter  the report exporter
      */
+    @Autowired
     public EmpBasicReportProcessor(IEmployeeManager employeeManager, ReportExporter reportExporter) {
         this.employeeManager = employeeManager;
         this.reportExporter = reportExporter;
@@ -49,7 +51,7 @@ public class EmpBasicReportProcessor extends AbstractReportProcessor<EmpBasicRep
         String reportFileUrl;
         if (Boolean.TRUE.equals(reportParam.getStreamEnabled())) {
             Stream<Employee> employeeStream = employeeManager.getAllEmployeesStream();
-            reportFileUrl = reportExporter.exportToCsv(getReportClass(), employeeStream, reportParam.getReportName()) ;
+            reportFileUrl = reportExporter.exportToCsv(getReportClass(), employeeStream, reportParam.getReportName());
         } else {
             // Using normal iterative in-memory approach
             List<Employee> employeesList = employeeManager.findAllEmployees();

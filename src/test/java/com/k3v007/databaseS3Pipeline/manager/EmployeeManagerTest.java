@@ -39,7 +39,9 @@ public class EmployeeManagerTest {
     public void countOfAllEmployeesShouldBeLessThanTheIdConstant() {
         List<Employee> employeeList = employeeManager.findAllEmployees();
         Integer employeesCount = employeeList.size();
-        assertThat(employeesCount).isLessThan(EmployeeConstant.MAX_ID_THRESHOLD);
+        assertThat(employeesCount)
+                .isGreaterThan(0)
+                .isLessThan(EmployeeConstant.MAX_ID_THRESHOLD);
     }
 
     /**
@@ -50,6 +52,8 @@ public class EmployeeManagerTest {
     public void countOfAllEmployeesUsingStreamShouldBeLessThanTheIdConstant() {
         Stream<Employee> employeeStream = employeeManager.getAllEmployeesStream();
         Integer employeesCount = (int) employeeStream.count();
-        assertThat(employeesCount).isLessThan(EmployeeConstant.MAX_ID_THRESHOLD);
+        assertThat(employeesCount)
+                .isGreaterThan(0)
+                .isLessThan(EmployeeConstant.MAX_ID_THRESHOLD);
     }
 }

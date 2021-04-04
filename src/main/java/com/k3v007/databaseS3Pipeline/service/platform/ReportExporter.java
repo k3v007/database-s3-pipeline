@@ -8,6 +8,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvGenerator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.k3v007.databaseS3Pipeline.exception.EmsBaseException;
+import com.k3v007.databaseS3Pipeline.model.Employee;
+import com.k3v007.databaseS3Pipeline.service.mapper.EmployeeMapper;
 import com.k3v007.databaseS3Pipeline.util.CsvUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,7 @@ public class ReportExporter {
     private String awsS3Bucket;
 
     private final AmazonS3 s3Client;
+    private final EmployeeMapper employeeMapper;
 
     /**
      * Instantiates a new Report exporter.
@@ -38,8 +41,9 @@ public class ReportExporter {
      * @param s3Client the amazon s 3
      */
     @Autowired
-    public ReportExporter(AmazonS3 s3Client) {
+    public ReportExporter(AmazonS3 s3Client, EmployeeMapper employeeMapper) {
         this.s3Client = s3Client;
+        this.employeeMapper = employeeMapper;
     }
 
     /**
@@ -49,7 +53,9 @@ public class ReportExporter {
      * @param <U>         the type parameter
      * @param reportClass the report class
      * @param dataStream  the data stream
+     * @param filePath    the file path
      * @return the string
+     * @throws IOException the io exception
      */
     public <T, U> String exportToCsv(Class<T> reportClass, Stream<U> dataStream, String filePath) throws IOException {
         StreamTransferManager streamTransferManager = new StreamTransferManager(awsS3Bucket, filePath, s3Client);
@@ -61,12 +67,7 @@ public class ReportExporter {
 
         dataStream.forEach(data -> {
             try {
-                csvGenerator.writeObject(data);
-                /**
-                 csvMapper.writerFor(dataStream.getClass())
-                 .with(CsvUtil.buildCsvSchema(reportClass))
-                 .writeValue(outputStream, data);
-                 */
+                csvGenerator.writeObject(employeeMapper.map((Employee) data));
             } catch (IOException e) {
                 throw new EmsBaseException("Something went wrong :: " + e.getMessage());
             }
@@ -86,6 +87,7 @@ public class ReportExporter {
      * @param <U>         the type parameter
      * @param reportClass the report class
      * @param dataStream  the data stream
+     * @param filePath    the file path
      * @return the string
      */
     public <T, U> String exportToCsv(Class<T> reportClass, List<U> dataStream, String filePath) {

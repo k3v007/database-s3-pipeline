@@ -27,6 +27,9 @@ public class CsvUtil {
                 csvSchemaBuilder.addColumn(header.value());
             }
         }
-        return csvSchemaBuilder.build().withHeader();
+        return csvSchemaBuilder
+                .setUseHeader(true)
+                .build()
+                .withHeader();
     }
 }
