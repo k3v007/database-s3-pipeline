@@ -21,5 +21,5 @@ public interface IReportProcessor {
      *
      * @return the string
      */
-    String generateReportFileUrl();
+    String generateReportFileUrl(Boolean usingStream);
 }

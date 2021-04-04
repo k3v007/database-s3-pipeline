@@ -3,28 +3,28 @@ package com.k3v007.databaseS3Pipeline.service.reporting.impl;
 import com.k3v007.databaseS3Pipeline.enums.ReportType;
 import com.k3v007.databaseS3Pipeline.service.reporting.IReportProcessor;
 
-import java.util.List;
-
 /**
  * The type Abstract report processor.
  *
+ * @param <T> the type parameter
  * @author Vivek
  */
-public abstract class AbstractReportProcessor implements IReportProcessor {
+public abstract class AbstractReportProcessor<T> implements IReportProcessor {
 
     public abstract ReportType getReportType();
 
     /**
-     * Gets report header.
+     * Gets report class.
      *
-     * @return the report header
+     * @return the report class
      */
-    public abstract List<String> getReportHeader();
+    protected abstract Class<T> getReportClass();
 
     /**
-     * Gets report footer.
+     * Generate report file url string.
      *
-     * @return the report footer
+     * @param usingStream the using stream
+     * @return the string
      */
-    public abstract List<String> getReportFooter();
+    public abstract String generateReportFileUrl(Boolean usingStream);
 }

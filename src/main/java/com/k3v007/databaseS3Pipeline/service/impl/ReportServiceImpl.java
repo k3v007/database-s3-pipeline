@@ -35,7 +35,7 @@ public class ReportServiceImpl implements IReportService {
     @Override
     public void generateReport(ReportParam reportParam) {
         IReportProcessor reportProcessor = reportProcessorFactory.getReportingProcessor(reportParam.getReportType());
-        String s3FileUrl = reportProcessor.generateReportFileUrl();
+        String s3FileUrl = reportProcessor.generateReportFileUrl(true);
         GenericReport genericReport = GenericReport.builder()
                 .reportName(reportParam.getReportName())
                 .reportType(reportParam.getReportType())
