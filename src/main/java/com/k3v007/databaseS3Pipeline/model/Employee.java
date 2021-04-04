@@ -38,8 +38,8 @@ public class Employee extends AbstractEntity<Integer> {
     @Column(name = "designation")
     private Designation designation;
 
-    @Column(name = "joining_date")
+    @Column(name = "date_of_joining")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate joiningDate;
+    private LocalDate dateOfJoining;
 }
