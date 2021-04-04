@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 public class ReportExporter {
 
     @Value("${aws.s3.bucket}")
-    private String s3Bucket;
+    private String awsS3Bucket;
 
     private final AmazonS3 amazonS3;
 
