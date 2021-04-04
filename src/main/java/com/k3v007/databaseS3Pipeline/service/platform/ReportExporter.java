@@ -54,17 +54,24 @@ public class ReportExporter {
     public <T, U> String exportToCsv(Class<T> reportClass, Stream<U> dataStream, String filePath) throws IOException {
         StreamTransferManager streamTransferManager = new StreamTransferManager(awsS3Bucket, filePath, s3Client);
         OutputStream outputStream = streamTransferManager.getMultiPartOutputStreams().get(0);
+        CsvSchema csvSchema = CsvUtil.buildCsvSchema(reportClass);
         CsvMapper csvMapper = new CsvMapper();
         CsvGenerator csvGenerator = csvMapper.getFactory().createGenerator(outputStream);
+        csvGenerator.setSchema(csvSchema);
+
         dataStream.forEach(data -> {
             try {
-                csvMapper.writerFor(dataStream.getClass())
-                        .with(CsvUtil.buildCsvSchema(reportClass))
-                        .writeValue(outputStream, data);
+                csvGenerator.writeObject(data);
+                /**
+                 csvMapper.writerFor(dataStream.getClass())
+                 .with(CsvUtil.buildCsvSchema(reportClass))
+                 .writeValue(outputStream, data);
+                 */
             } catch (IOException e) {
-                throw new EmsBaseException("Something went wrong");
+                throw new EmsBaseException("Something went wrong :: " + e.getMessage());
             }
         });
+
         outputStream.close();
         streamTransferManager.complete();
         s3Client.setObjectAcl(awsS3Bucket, filePath, CannedAccessControlList.PublicRead);

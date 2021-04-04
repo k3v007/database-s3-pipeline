@@ -1,9 +1,11 @@
 package com.k3v007.databaseS3Pipeline.manager.impl;
 
+import com.k3v007.databaseS3Pipeline.constant.EmployeeConstant;
 import com.k3v007.databaseS3Pipeline.manager.IEmployeeManager;
 import com.k3v007.databaseS3Pipeline.model.Employee;
 import com.k3v007.databaseS3Pipeline.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,11 +33,11 @@ public class EmployeeManagerImpl implements IEmployeeManager {
 
     @Override
     public List<Employee> findAllEmployees() {
-        return employeeRepository.findAll();
+        return employeeRepository.findAllByIdLessThan(EmployeeConstant.MAX_ID_THRESHOLD);
     }
 
     @Override
     public Stream<Employee> getAllEmployeesStream() {
-        return null;
+        return employeeRepository.findAllUsingStreamLessThan(EmployeeConstant.MAX_ID_THRESHOLD, Pageable.unpaged());
     }
 }
