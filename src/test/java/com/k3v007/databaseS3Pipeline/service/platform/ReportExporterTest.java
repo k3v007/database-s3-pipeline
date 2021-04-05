@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -37,15 +38,28 @@ public class ReportExporterTest {
     }
 
     /**
-     * Sample test.
+     * Test report export to csv using jpa and s3 streams.
      *
      * @throws IOException the io exception
      */
     @Test
     @Transactional(readOnly = true)
-    public void sampleTest() throws IOException {
+    public void testReportExportToCsvUsingJpaAndS3Streams() throws IOException {
         Stream<Employee> employeeStream = employeeManager.getAllEmployeesStream();
         String reportFileUrl = reportExporter.exportToCsv(EmpBasicReport.class, employeeStream, "TestFile");
+        Assertions.assertThat(reportFileUrl).isNotNull();
+    }
+
+    /**
+     * Test report export to csv without stream.
+     *
+     * @throws IOException the io exception
+     */
+    @Test
+    @Transactional(readOnly = true)
+    public void testReportExportToCsvWithoutStream() throws IOException {
+        List<Employee> employeesList = employeeManager.findAllEmployees();
+        String reportFileUrl = reportExporter.exportToCsv(EmpBasicReport.class, employeesList, "TestFile2");
         Assertions.assertThat(reportFileUrl).isNotNull();
     }
 }

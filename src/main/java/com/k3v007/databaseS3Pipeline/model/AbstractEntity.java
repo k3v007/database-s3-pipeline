@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @MappedSuperclass
-public abstract class AbstractEntity<T extends Number> {
+public abstract class AbstractEntity<T extends Number> implements Serializable {
 
     @Id
     @Column(name = "id")

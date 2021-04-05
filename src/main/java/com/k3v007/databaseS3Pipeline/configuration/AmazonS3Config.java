@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AmazonS3Config {
 
-    @Value("${aws.s3.region}")
+    @Value("${aws.region}")
     private String awsRegion;
 
     /**
