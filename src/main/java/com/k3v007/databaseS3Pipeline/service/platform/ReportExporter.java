@@ -116,6 +116,7 @@ public class ReportExporter {
         });
         fileOutputStream.close();
         awsS3Client.putObject(new PutObjectRequest(awsS3Bucket, filePath, file).withCannedAcl(CannedAccessControlList.PublicRead));
+        file.delete();
         URL url = awsS3Client.getUrl(awsS3Bucket, filePath);
         return url.toString();
     }
