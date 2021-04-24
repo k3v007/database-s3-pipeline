@@ -4,6 +4,7 @@ import com.k3v007.databaseS3Pipeline.DatabaseS3PipelineApplication;
 import com.k3v007.databaseS3Pipeline.dto.EmpBasicReport;
 import com.k3v007.databaseS3Pipeline.manager.IEmployeeManager;
 import com.k3v007.databaseS3Pipeline.model.Employee;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
  *
  * @author Vivek
  */
+@Slf4j
 @SpringBootTest(classes = DatabaseS3PipelineApplication.class)
 public class ReportExporterTest {
 
@@ -58,7 +60,9 @@ public class ReportExporterTest {
     @Test
     @Transactional(readOnly = true)
     public void testReportExportToCsvWithoutStream() throws IOException {
+        log.info("Data fetch started");
         List<Employee> employeesList = employeeManager.findAllEmployees();
+        log.info("Data fetch completed");
         String reportFileUrl = reportExporter.exportToCsv(EmpBasicReport.class, employeesList, "TestFile2");
         Assertions.assertThat(reportFileUrl).isNotNull();
     }

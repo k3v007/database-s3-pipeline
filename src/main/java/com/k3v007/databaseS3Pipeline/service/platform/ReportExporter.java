@@ -11,6 +11,7 @@ import com.k3v007.databaseS3Pipeline.exception.EmsBaseException;
 import com.k3v007.databaseS3Pipeline.model.Employee;
 import com.k3v007.databaseS3Pipeline.service.mapper.EmployeeMapper;
 import com.k3v007.databaseS3Pipeline.util.CsvUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,7 @@ import java.util.stream.Stream;
  *
  * @author Vivek
  */
+@Slf4j
 @Component
 public class ReportExporter {
 
@@ -107,6 +109,7 @@ public class ReportExporter {
         CsvGenerator csvGenerator = csvMapper.getFactory().createGenerator(fileOutputStream);
         csvGenerator.setSchema(csvSchema);
 
+        log.info("Starting CSV creation");
         dataList.forEach(data -> {
             try {
                 csvGenerator.writeObject(employeeMapper.map((Employee) data));
@@ -114,6 +117,7 @@ public class ReportExporter {
                 throw new EmsBaseException("Something went wrong :: " + e.getMessage());
             }
         });
+        log.info("CSV Creation completed");
         fileOutputStream.close();
         awsS3Client.putObject(new PutObjectRequest(awsS3Bucket, filePath, file).withCannedAcl(CannedAccessControlList.PublicRead));
         file.delete();
