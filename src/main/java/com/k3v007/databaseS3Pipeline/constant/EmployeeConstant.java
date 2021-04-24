@@ -10,5 +10,5 @@ public interface EmployeeConstant {
     /**
      * The constant MAX_ID_THRESHOLD.
      */
-    Integer MAX_ID_THRESHOLD = 3000000;
+    Integer MAX_ID_THRESHOLD = 6000000;
 }
